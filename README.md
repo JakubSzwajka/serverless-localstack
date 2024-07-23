@@ -69,4 +69,3 @@ docker logs localstack
 ```
 
 Ensure that the `localstack_endpoints.json` file is correctly configured and matches your LocalStack setup.
-```
