@@ -1,0 +1,32 @@
+service: serverless-localstack
+
+provider:
+  name: aws
+  runtime: python3.11
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+
+functions:
+  hello:
+    handler: functions/hello/handler.lambda_handler
+    events:
+      - http:
+          path: hello
+          method: get
+  goodbye:
+    handler: functions/goodbye/handler.lambda_handler
+    events:
+      - http:
+          path: goodbye
+          method: get
+
+plugins:
+  - serverless-localstack
+
+custom: 
+  localstack:
+    stages: 
+      - local
+    edpointFile: localstack_endpoints.json
+    lambda:
+      mountCode: True

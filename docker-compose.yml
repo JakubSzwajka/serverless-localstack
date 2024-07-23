@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"  # Main LocalStack port
+      - "4571:4571"  # Lambda port
+    environment:
+      - SERVICES=lambda,apigateway,cloudformation,s3,logs,iam
+      - DEBUG=1
+      - DATA_DIR=/var/lib/localstack/data
+    volumes:
+      - "${LOCALSTACK_VOLUME_DIR:-./.localstack}:/var/lib/localstack"
+      - /var/run/docker.sock:/var/run/docker.sock
+      
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - "${POSTGRES_VOLUME_DIR:-./postgres}:/var/lib/postgresql/data"
+
+volumes:
+  postgres_data:
